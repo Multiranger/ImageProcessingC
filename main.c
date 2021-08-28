@@ -62,7 +62,7 @@ void pixelation();
 
 void printMenu1()
 { // 화소 점 처리
-	puts("\n ## 영상 처리 KSY 1.0 ##\n");
+	puts("\n ## 영상 처리 KSY 1.01 ##\n");
 	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.더하기  B.곱하기  C.대비  D.감마\n");
 	puts("E.명암반전  F.파라(캡)  G.파라(컵)\n");
@@ -73,7 +73,7 @@ void printMenu1()
 }
 void printMenu2()
 { // 기하학 처리
-	puts("\n ## 영상 처리 KSY 1.0 ##\n");
+	puts("\n ## 영상 처리 KSY 1.01 ##\n");
 	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.이동  B.축소  C.확대  D.회전\n");
 	puts("E.회전(90)  F.상하반전  G.좌우반전\n");
@@ -81,7 +81,7 @@ void printMenu2()
 }
 void printMenu3()
 { // 화소 영역 처리
-	puts("\n ## 영상 처리 KSY 1.0 ##\n");
+	puts("\n ## 영상 처리 KSY 1.01 ##\n");
 	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.엠보싱  B.블러  C.가우시안\n");
 	puts("D.기본 샤프닝  E.HPF  F.LPF\n");
@@ -91,7 +91,7 @@ void printMenu3()
 }
 void printMenu4()
 { // 기타
-	puts("\n ## 영상 처리 KSY 1.0 ##\n");
+	puts("\n ## 영상 처리 KSY 1.01 ##\n");
 	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.머지  B.원형 마스크  C.픽셀화\n");
 	puts("N.처음으로\n");
@@ -442,8 +442,8 @@ UC **malloc2D(int h, int w)
 	{
 		memory[i] = (UC *)malloc(w * sizeof(UC));
 
-		if (memory[i] == NULL)
-		{								// 할당에 실패한 배열이 있으면
+		if (memory[i] == NULL) // 할당에 실패한 배열이 있으면
+		{
 			for (int k = 0; k < i; k++) // 지금까지 할당한 메모리를 모두 반환하고
 				free(memory[k]);
 			free(memory);
@@ -463,8 +463,8 @@ UC **malloc2D(int h, int w)
 /// <param name="h">해제하려는 메모리의 높이</param>
 void free2D(UC **memory, int h)
 {
-	if (memory != NULL)
-	{ // 할당된 적이 없으면 아무것도 안함
+	if (memory != NULL) // 할당된 적이 없으면 아무것도 안함
+	{
 		for (int i = 0; i < h; i++)
 			free(memory[i]);
 		free(memory);
@@ -586,11 +586,13 @@ void drawImage()
 
 	system("cls");
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			px = m_Image[m_cur][i][k];
 			SetPixel(hdc, k + 600, i + 100, RGB(px, px, px));
 		}
+	}
 }
 
 /// <summary>
@@ -599,7 +601,7 @@ void drawImage()
 void saveImage()
 {
 	// 저장할 파일명 입력 받기.
-	char fullName[160] = ""; // 기본 경로
+	char fullName[160] = "";
 	char tmpName[50] = "";
 	printf("저장 파일명: ");
 	rewind(stdin);
@@ -647,7 +649,7 @@ void saveImage()
 /// </summary>
 void equalImage()
 {
-	newCur();
+	newCur(); // 새 작업공간 이동
 
 	free2D(m_Image[m_cur], m_H[m_cur]); // 메모리 누수 방지
 	m_H[m_cur] = m_H[0];
@@ -726,6 +728,7 @@ void addImage()
 	scanf("%d", &value);
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			int pixel = m_Image[m_cur - 1][i][k] + value;
@@ -737,6 +740,7 @@ void addImage()
 
 			m_Image[m_cur][i][k] = pixel;
 		}
+	}
 
 	drawImage();
 }
@@ -772,6 +776,7 @@ void mulImage()
 		value = -value;
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			int pixel = (int)(m_Image[m_cur - 1][i][k] * value);
@@ -781,6 +786,7 @@ void mulImage()
 
 			m_Image[m_cur][i][k] = pixel;
 		}
+	}
 
 	drawImage();
 }
@@ -807,6 +813,7 @@ void bwImage()
 	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < 128) // 128을 기준으로
@@ -814,6 +821,7 @@ void bwImage()
 			else
 				m_Image[m_cur][i][k] = 255;
 		}
+	}
 
 	drawImage();
 }
@@ -850,6 +858,7 @@ void avgImage()
 		avg = total / (double)(m_H[m_cur] * m_W[m_cur]); // 원소 수로 나눠서 평균 구함
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < avg) // 평균을 기준으로 흑백
@@ -857,6 +866,7 @@ void avgImage()
 			else
 				m_Image[m_cur][i][k] = 255;
 		}
+	}
 
 	drawImage();
 }
@@ -889,11 +899,13 @@ void gammaImage()
 	scanf("%lf", &gamma);
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double temp = m_Image[m_cur - 1][i][k] / 255.0;
 			m_Image[m_cur][i][k] = (UC)(255.0 * pow(temp, 1.0 / gamma)); // 255(x/255)^(1/r)
 		}
+	}
 
 	drawImage();
 }
@@ -920,11 +932,13 @@ void capParaImage()
 	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double value = 255.0 - 255.0 * pow(m_Image[m_cur - 1][i][k] / 128.0 - 1.0, 2.0);
 			m_Image[m_cur][i][k] = (UC)value;
 		}
+	}
 
 	drawImage();
 }
@@ -951,11 +965,13 @@ void cupParaImage()
 	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double value = 255.0 * pow(m_Image[m_cur - 1][i][k] / 128.0 - 1.0, 2.0);
 			m_Image[m_cur][i][k] = (UC)value;
 		}
+	}
 
 	drawImage();
 }
@@ -1021,11 +1037,12 @@ void zoomOutImage()
 	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			int avg = 0;
 
-			for (int m = 0; m < value; m++)
+			for (int m = 0; m < value; m++) // 평균값 서브샘플링
 				for (int n = 0; n < value; n++)
 					avg += m_Image[m_cur - 1][i * value + m][k * value + n];
 
@@ -1033,6 +1050,7 @@ void zoomOutImage()
 
 			m_Image[m_cur][i][k] = (UC)avg;
 		}
+	}
 
 	drawImage();
 }
@@ -1070,6 +1088,7 @@ void zoomInImage()
 	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double rx = (double)k / value; // 원본 좌표
@@ -1091,6 +1110,7 @@ void zoomInImage()
 
 			m_Image[m_cur][i][k] = (UC)value;
 		}
+	}
 
 	drawImage();
 }
@@ -1181,8 +1201,9 @@ void rotateImage()
 	y0 = m_H[m_cur] / 2;
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-		for (int k = 0; k < m_W[m_cur]; k++)
-		{ // 새로운 중심을 기준으로 회전
+	{
+		for (int k = 0; k < m_W[m_cur]; k++) // 새로운 중심을 기준으로 회전
+		{
 			double nk = (k - x0) * cos(radian) + (i - y0) * sin(radian) + x0;
 			double ni = (x0 - k) * sin(radian) + (i - y0) * cos(radian) + y0;
 			if (nk >= 0 && ni >= 0 && nk < m_W[m_cur] && ni < m_H[m_cur])
@@ -1205,6 +1226,7 @@ void rotateImage()
 				m_Image[m_cur][i][k] = (UC)value;
 			}
 		}
+	}
 
 	free2D(temp, m_H[m_cur]);
 
@@ -1306,8 +1328,8 @@ double **malloc2Ddouble(int h, int w)
 /// <param name="h">해제하려는 메모리의 높이</param>
 void free2Ddouble(double **memory, int h)
 {
-	if (memory != NULL)
-	{ // 할당된 적이 없으면 아무것도 안함
+	if (memory != NULL) // 할당된 적이 없으면 아무것도 안함
+	{
 		for (int i = 0; i < h; i++)
 			free(memory[i]);
 		free(memory);
@@ -1352,6 +1374,7 @@ void emboss()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1362,6 +1385,7 @@ void emboss()
 
 			tmpOutput[i][k] = S;
 		}
+	}
 
 	// 마스크의 합이 0이면 127 더하기
 	for (int i = 0; i < m_H[m_cur]; i++)
@@ -1370,6 +1394,7 @@ void emboss()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1381,6 +1406,7 @@ void emboss()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1444,6 +1470,7 @@ void blur()
 			tmpInput[i + offset][k + offset] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1454,16 +1481,16 @@ void blur()
 
 			tmpOutput[i][k] = S;
 		}
+	}
 
 	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
+	//for (int i = 0; i < m_H[m_cur]; i++)
+	//	for (int k = 0; k < m_W[m_cur]; k++)
 	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1475,6 +1502,7 @@ void blur()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(mask, value);
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + append);
@@ -1521,6 +1549,7 @@ void gauss()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1531,16 +1560,16 @@ void gauss()
 
 			tmpOutput[i][k] = S;
 		}
+	}
 
 	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
+	//for (int i = 0; i < m_H[m_cur]; i++)
+	//	for (int k = 0; k < m_W[m_cur]; k++)
 	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1552,6 +1581,7 @@ void gauss()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1597,6 +1627,7 @@ void sharpen()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1607,16 +1638,16 @@ void sharpen()
 
 			tmpOutput[i][k] = S;
 		}
+	}
 
 	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
+	//for (int i = 0; i < m_H[m_cur]; i++)
+	//	for (int k = 0; k < m_W[m_cur]; k++)
 	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1628,6 +1659,7 @@ void sharpen()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1674,6 +1706,7 @@ void lpfSharpen()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++) // 저주파 필터 적용
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1684,6 +1717,7 @@ void lpfSharpen()
 
 			tmpOutput[i][k] = S;
 		}
+	}
 
 	printf("게인 값(1.0 ~ 3.0): ");
 	rewind(stdin);
@@ -1692,20 +1726,13 @@ void lpfSharpen()
 	if (a < 1.0 || a > 3.0)
 		a = 2.0;
 
-	// 고주파 지원
-	for (int i = 0; i < m_H[m_cur - 1]; i++)
+	for (int i = 0; i < m_H[m_cur - 1]; i++) // 고주파 지원
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 			tmpOutput[i][k] = a * m_Image[m_cur - 1][i][k] - tmpOutput[i][k];
 
-	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
-	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
-
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1717,6 +1744,7 @@ void lpfSharpen()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1755,22 +1783,28 @@ void homogen()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++) // 모든 화소에 대해
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
-			double S[9] = {0.}; // |center - m|
+			double S = 0.; // |center - m|
+			double max = 0.;
 
 			for (int m = 0; m < 3; m++) // 3 X 3 범위로 가운데 화소의 값과 주변 화소의 차를 구함
+			{
 				for (int n = 0; n < 3; n++)
+				{
 					if (m != 1 || n != 1) // 가운데는 계산하지 않음
-						S[m * 3 + n] = fabs(tmpInput[i + 1][k + 1] - tmpInput[i + m][k + n]);
-
-			double max = S[0];
-			for (int m = 1; m < 9; m++)
-				if (S[m] > max)
-					max = S[m];
+					{
+						S = fabs(tmpInput[i + 1][k + 1] - tmpInput[i + m][k + n]);
+						if (S > max)
+							max = S;
+					}
+				}
+			}
 
 			tmpOutput[i][k] = max;
 		}
+	}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
@@ -1814,21 +1848,23 @@ void differ()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++) // 모든 화소에 대해
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double S[4] = {0.}; // |대각선 끼리의 차|
+			double max = 0.;
 
 			for (int m = 0; m < 3; m++) // 3 X 3 범위로 대각선 성분들의 차를 구함
 				S[m] = fabs(tmpInput[i][k + m] - tmpInput[i + 2][k + 2 - m]);
 			S[3] = fabs(tmpInput[i + 1][k] - tmpInput[i + 1][k + 2]);
 
-			double max = S[0];
-			for (int m = 1; m < 4; m++)
+			for (int m = 0; m < 4; m++)
 				if (S[m] > max)
 					max = S[m];
 
 			tmpOutput[i][k] = max;
 		}
+	}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
@@ -1881,6 +1917,7 @@ void LoG()
 			tmpInput[i + 2][k + 2] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1891,17 +1928,17 @@ void LoG()
 
 			tmpOutput[i][k] = S;
 		}
+	}
 
 	// 마스크의 합이 0이면 127 더하기
 	// 경계선 검출에서는 더하기 하지 않는 것이 보기에 더 좋다.
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
+	//for (int i = 0; i < m_H[m_cur]; i++)
+	//	for (int k = 0; k < m_W[m_cur]; k++)
 	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1913,6 +1950,7 @@ void LoG()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 4);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1964,6 +2002,7 @@ void DoG()
 			tmpInput[i + 4][k + 4] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1974,17 +2013,11 @@ void DoG()
 
 			tmpOutput[i][k] = S;
 		}
-
-	// 마스크의 합이 0이면 127 더하기
-	// 경계선 검출에서는 더하기 하지 않는 것이 보기에 더 좋다.
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
-	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
+	}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1996,6 +2029,7 @@ void DoG()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 8);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -2034,6 +2068,7 @@ void contrast()
 		val = 1;
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			double pixel = m_Image[m_cur - 1][i][k] + (val - 1) * (m_Image[0][i][k] - 127);
@@ -2045,6 +2080,7 @@ void contrast()
 
 			m_Image[m_cur][i][k] = (UC)pixel;
 		}
+	}
 
 	drawImage();
 }
@@ -2126,6 +2162,7 @@ void histoStretch()
 	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			if (min > m_Image[m_cur - 1][i][k])
@@ -2133,8 +2170,10 @@ void histoStretch()
 			if (max < m_Image[m_cur - 1][i][k])
 				max = m_Image[m_cur - 1][i][k];
 		}
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < min)
@@ -2144,6 +2183,7 @@ void histoStretch()
 			else
 				m_Image[m_cur][i][k] = 255 * (m_Image[m_cur - 1][i][k] - min) / (max - min);
 		}
+	}
 
 	drawImage();
 }
@@ -2153,7 +2193,7 @@ void histoStretch()
 /// </summary>
 void openMaskImage(UC **mask)
 {
-	char fullName[160] = ""; // 기본 경로
+	char fullName[160] = "";
 	char tmpName[50] = "";
 	printf("마스크 파일명: ");
 	rewind(stdin);
@@ -2250,6 +2290,7 @@ void Circle(UC **Result, int diameter)
 	double tmp, xSqure, ySqure;
 
 	for (i = 0; i < m_H[m_cur]; i++)
+	{
 		for (j = 0; j < m_W[m_cur]; j++)
 		{
 			ySqure = (abs(m_H[m_cur] / 2 - i)) * (abs(m_H[m_cur] / 2 - i));
@@ -2261,6 +2302,7 @@ void Circle(UC **Result, int diameter)
 			else
 				Result[i][j] = 0;
 		}
+	}
 }
 
 /// <summary>
@@ -2330,6 +2372,7 @@ void posterImage()
 	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < 32)
@@ -2349,6 +2392,7 @@ void posterImage()
 			else
 				m_Image[m_cur][i][k] = 255;
 		}
+	}
 
 	drawImage();
 }
@@ -2391,6 +2435,7 @@ void partImage()
 		h = 255;
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] >= l && m_Image[m_cur - 1][i][k] <= h)
@@ -2398,6 +2443,7 @@ void partImage()
 			else
 				m_Image[m_cur][i][k] = m_Image[m_cur - 1][i][k];
 		}
+	}
 
 	drawImage();
 }
@@ -2440,6 +2486,7 @@ void hpfSharpen()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -2450,16 +2497,11 @@ void hpfSharpen()
 
 			tmpOutput[i][k] = S;
 		}
-
-	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
-	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
+	}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
+	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -2471,6 +2513,7 @@ void hpfSharpen()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
+	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -2509,11 +2552,13 @@ void pixelation()
 		block = 1;
 
 	for (int i = 0; i < m_H[m_cur - 1]; i += block) // 블록 단위로
+	{
 		for (int k = 0; k < m_W[m_cur - 1]; k += block)
 		{
 			int temp = 0;
 
 			for (int m = 0; m < block; m++) // 블록 내 화소의 평균값을 구하고
+			{
 				for (int n = 0; n < block; n++)
 				{
 					int ni = i + m;
@@ -2526,10 +2571,12 @@ void pixelation()
 
 					temp += m_Image[m_cur - 1][ni][nk];
 				}
+			}
 
 			temp /= block * block;
 
 			for (int m = 0; m < block; m++) // 블록 내의 화소를 전부 평균값으로 채움
+			{
 				for (int n = 0; n < block; n++)
 				{
 					int ni = i + m;
@@ -2542,7 +2589,9 @@ void pixelation()
 
 					m_Image[m_cur][ni][nk] = temp;
 				}
+			}
 		}
+	}
 
 	drawImage();
 }
