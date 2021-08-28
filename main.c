@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS // VS 보안 오류 해제
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <math.h>
 #include <string.h>
 #include <conio.h>
@@ -463,12 +462,14 @@ UC **malloc2D(int h, int w)
 /// <param name="h">해제하려는 메모리의 높이</param>
 void free2D(UC **memory, int h)
 {
-	if (memory != NULL) // 할당된 적이 없으면 아무것도 안함
+	if (memory == NULL) // 할당된 적이 없으면 아무것도 안함
 	{
-		for (int i = 0; i < h; i++)
-			free(memory[i]);
-		free(memory);
+		return;
 	}
+
+	for (int i = 0; i < h; i++)
+		free(memory[i]);
+	free(memory);
 }
 
 /// <summary>
@@ -554,7 +555,7 @@ void openImage()
 	fseek(rfp, 0L, SEEK_SET);
 
 	// 메모리 누수 방지
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < MAX_WORK; i++)
 		free2D(m_Image[i], m_H[i]);
 	m_cur = m_last = 0;
 
@@ -1328,12 +1329,12 @@ double **malloc2Ddouble(int h, int w)
 /// <param name="h">해제하려는 메모리의 높이</param>
 void free2Ddouble(double **memory, int h)
 {
-	if (memory != NULL) // 할당된 적이 없으면 아무것도 안함
-	{
-		for (int i = 0; i < h; i++)
-			free(memory[i]);
-		free(memory);
-	}
+	if (memory == NULL) // 할당된 적이 없으면 아무것도 안함
+		return;
+
+	for (int i = 0; i < h; i++)
+		free(memory[i]);
+	free(memory);
 }
 
 /// <summary>
