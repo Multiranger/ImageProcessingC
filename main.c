@@ -13,11 +13,12 @@
 // 전역 변수부
 UC **m_Image[MAX_WORK];
 int m_H[MAX_WORK], m_W[MAX_WORK], m_cur, m_last;
-char m_fileName[100];
+char m_dir[100];
 HWND hwnd; // 윈도 화면(물리적)
 HDC hdc;   // 윈도 화면(논리적)
 
 // 함수 선언부(공통)
+void changeDir();
 void openImage();
 void saveImage();
 void drawImage();
@@ -62,7 +63,7 @@ void pixelation();
 void printMenu1()
 { // 화소 점 처리
 	puts("\n ## 영상 처리 KSY 1.0 ##\n");
-	puts("0.열기  1.원본  2.저장  3.Undo  4.Redo  5.종료\n");
+	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.더하기  B.곱하기  C.대비  D.감마\n");
 	puts("E.명암반전  F.파라(캡)  G.파라(컵)\n");
 	puts("H.포스터라이징  I.부분 강조\n");
@@ -73,7 +74,7 @@ void printMenu1()
 void printMenu2()
 { // 기하학 처리
 	puts("\n ## 영상 처리 KSY 1.0 ##\n");
-	puts("0.열기  1.원본  2.저장  3.Undo  4.Redo  5.종료\n");
+	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.이동  B.축소  C.확대  D.회전\n");
 	puts("E.회전(90)  F.상하반전  G.좌우반전\n");
 	puts("N.다음 메뉴\n");
@@ -81,7 +82,7 @@ void printMenu2()
 void printMenu3()
 { // 화소 영역 처리
 	puts("\n ## 영상 처리 KSY 1.0 ##\n");
-	puts("0.열기  1.원본  2.저장  3.Undo  4.Redo  5.종료\n");
+	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.엠보싱  B.블러  C.가우시안\n");
 	puts("D.기본 샤프닝  E.HPF  F.LPF\n");
 	puts("G.유사 연산자  H.차 연산자\n");
@@ -91,7 +92,7 @@ void printMenu3()
 void printMenu4()
 { // 기타
 	puts("\n ## 영상 처리 KSY 1.0 ##\n");
-	puts("0.열기  1.원본  2.저장  3.Undo  4.Redo  5.종료\n");
+	puts("0.파일경로  1.열기  2.원본  3.저장  4.Undo  5.Redo  6.종료\n");
 	puts("A.머지  B.원형 마스크  C.픽셀화\n");
 	puts("N.처음으로\n");
 }
@@ -118,7 +119,7 @@ int main()
 
 	char select = 0;
 	char menu = 0;
-	while (select != '5')
+	while (select != '6')
 	{
 		if (menu == 0)
 		{
@@ -129,22 +130,25 @@ int main()
 			switch (select)
 			{
 			case '0':
+				changeDir();
+				break;
+			case '1':
 				openImage();
 				equalImage();
 				break;
-			case '1':
+			case '2':
 				equalImage();
 				break;
-			case '2':
+			case '3':
 				saveImage();
 				break;
-			case '3':
+			case '4':
 				undo();
 				break;
-			case '4':
+			case '5':
 				redo();
 				break;
-			case '5':
+			case '6':
 				for (int i = 0; i < MAX_WORK; i++)
 					free2D(m_Image[i], m_H[i]);
 				return 0;
@@ -219,22 +223,25 @@ int main()
 			switch (select)
 			{
 			case '0':
+				changeDir();
+				break;
+			case '1':
 				openImage();
 				equalImage();
 				break;
-			case '1':
+			case '2':
 				equalImage();
 				break;
-			case '2':
+			case '3':
 				saveImage();
 				break;
-			case '3':
+			case '4':
 				undo();
 				break;
-			case '4':
+			case '5':
 				redo();
 				break;
-			case '5':
+			case '6':
 				for (int i = 0; i < MAX_WORK; i++)
 					free2D(m_Image[i], m_H[i]);
 				return 0;
@@ -285,22 +292,25 @@ int main()
 			switch (select)
 			{
 			case '0':
+				changeDir();
+				break;
+			case '1':
 				openImage();
 				equalImage();
 				break;
-			case '1':
+			case '2':
 				equalImage();
 				break;
-			case '2':
+			case '3':
 				saveImage();
 				break;
-			case '3':
+			case '4':
 				undo();
 				break;
-			case '4':
+			case '5':
 				redo();
 				break;
-			case '5':
+			case '6':
 				for (int i = 0; i < MAX_WORK; i++)
 					free2D(m_Image[i], m_H[i]);
 				return 0;
@@ -363,22 +373,25 @@ int main()
 			switch (select)
 			{
 			case '0':
+				changeDir();
+				break;
+			case '1':
 				openImage();
 				equalImage();
 				break;
-			case '1':
+			case '2':
 				equalImage();
 				break;
-			case '2':
+			case '3':
 				saveImage();
 				break;
-			case '3':
+			case '4':
 				undo();
 				break;
-			case '4':
+			case '5':
 				redo();
 				break;
-			case '5':
+			case '6':
 				for (int i = 0; i < MAX_WORK; i++)
 					free2D(m_Image[i], m_H[i]);
 				return 0;
@@ -422,27 +435,25 @@ UC **malloc2D(int h, int w)
 
 	memory = (UC **)malloc(h * sizeof(UC *)); // 포인터 배열 할당
 
-	if (memory != NULL)
-	{
-		for (int i = 0; i < h; i++)
-		{ // 각 포인터에 배열 할당
-			memory[i] = (UC *)malloc(w * sizeof(UC));
-
-			if (memory[i] == NULL)
-			{								// 할당에 실패한 배열이 있으면
-				for (int k = 0; k < i; k++) // 지금까지 할당한 메모리를 모두 반환하고
-					free(memory[k]);
-				free(memory);
-				return NULL; // NULL 반환
-			}
-
-			for (int k = 0; k < w; k++)
-				memory[i][k] = 0;
-		}
-		return memory; // 모두 할당에 성공한 경우
-	}
-	else // 포인터 배열 할당 실패하면
+	if (memory == NULL)
 		return NULL;
+
+	for (int i = 0; i < h; i++) // 각 포인터에 배열 할당
+	{
+		memory[i] = (UC *)malloc(w * sizeof(UC));
+
+		if (memory[i] == NULL)
+		{								// 할당에 실패한 배열이 있으면
+			for (int k = 0; k < i; k++) // 지금까지 할당한 메모리를 모두 반환하고
+				free(memory[k]);
+			free(memory);
+			return NULL; // NULL 반환
+		}
+
+		for (int k = 0; k < w; k++) // 초기화
+			memory[i][k] = 0;
+	}
+	return memory; // 모두 할당에 성공한 경우
 }
 
 /// <summary>
@@ -465,12 +476,12 @@ void free2D(UC **memory, int h)
 /// </summary>
 void newCur()
 {
-	if (m_cur < MAX_WORK - 1)
+	if (m_cur < MAX_WORK - 1) // 작업공간이 남아있다면
 	{
 		m_cur++;
 		m_last = m_cur;
 	}
-	else
+	else // 작업공간이 가득 차면 첫 번째 작업을 지우고 앞으로 한 칸씩 이동
 	{
 		free2D(m_Image[1], m_H[1]);
 		for (int i = 1; i < MAX_WORK - 1; i++)
@@ -484,11 +495,36 @@ void newCur()
 }
 
 /// <summary>
+/// 경로 이름 변경
+/// </summary>
+void changeDir()
+{
+	char tmpDir[100] = "";
+	printf("경로명: ");
+	rewind(stdin);
+	scanf("%s", tmpDir);
+
+	if (tmpDir[99] != 0)
+	{
+		MessageBox(hwnd, "파일 경로가 최대 길이(99자)를 초과했습니다.", "경로 창", 0);
+		drawImage();
+		return;
+	}
+
+	if (!strcmp(tmpDir, "default")) // 기본값은 실행파일 위치
+		strcpy(m_dir, "");
+	else
+		strcpy(m_dir, tmpDir);
+
+	drawImage();
+}
+
+/// <summary>
 /// raw 이미지를 열어서 m_Images[0]에 저장
 /// </summary>
 void openImage()
 {
-	char fullName[100] = "c:/images/Etc_Raw(squre)/"; // 기본 경로
+	char fullName[160] = "";
 	char tmpName[50] = "";
 	printf("파일명: ");
 	rewind(stdin);
@@ -496,19 +532,19 @@ void openImage()
 
 	if (tmpName[49] != 0)
 	{
-		printf("파일 이름이 최대 길이(49자)를 초과했습니다.\n");
+		MessageBox(hwnd, "파일 이름이 최대 길이(49자)를 초과했습니다.", "열기 창", 0);
 		return;
 	}
 
+	strcpy(fullName, m_dir);
 	strcat(fullName, tmpName);
 	strcat(fullName, ".raw");
-	strcpy(m_fileName, fullName);
 
 	FILE *rfp;
-	rfp = fopen(m_fileName, "rb");
+	rfp = fopen(fullName, "rb");
 	if (rfp == NULL)
 	{
-		printf("파일 읽기 실패.\n");
+		MessageBox(hwnd, "파일 읽기 실패.", "열기 창", 0);
 		return;
 	}
 
@@ -529,7 +565,7 @@ void openImage()
 	m_Image[0] = malloc2D(m_H[0], m_W[0]);
 	if (m_Image[0] == NULL)
 	{
-		printf("메모리 할당 실패.\n");
+		MessageBox(hwnd, "메모리 부족.", "열기 창", 0);
 		fclose(rfp);
 		return;
 	}
@@ -550,13 +586,11 @@ void drawImage()
 
 	system("cls");
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			px = m_Image[m_cur][i][k];
 			SetPixel(hdc, k + 600, i + 100, RGB(px, px, px));
 		}
-	}
 }
 
 /// <summary>
@@ -565,7 +599,7 @@ void drawImage()
 void saveImage()
 {
 	// 저장할 파일명 입력 받기.
-	char fullName[100] = "c:/images/Etc_Raw(squre)/"; // 기본 경로
+	char fullName[160] = ""; // 기본 경로
 	char tmpName[50] = "";
 	printf("저장 파일명: ");
 	rewind(stdin);
@@ -573,30 +607,35 @@ void saveImage()
 
 	if (tmpName[49] != 0)
 	{
-		printf("파일 이름이 최대 길이(49자)를 초과했습니다.\n");
+		MessageBox(hwnd, "파일 이름이 최대 길이(49자)를 초과했습니다.", "저장 창", 0);
+		drawImage();
 		return;
 	}
 
 	if (!strcmp(tmpName, "cancel"))
 	{
-		MessageBox(hwnd, "저장 취소", "저장 창", 0);
+		MessageBox(hwnd, "저장 취소.", "저장 창", 0);
+		drawImage();
 		return;
 	}
 
+	strcpy(fullName, m_dir);
 	strcat(fullName, tmpName);
 	strcat(fullName, ".raw");
 
 	FILE *wfp = fopen(fullName, "wb");
-	if (wfp != NULL)
+	if (wfp == NULL)
 	{
-		for (int i = 0; i < m_H[m_cur]; i++)
-			fwrite(m_Image[m_cur][i], sizeof(UC), m_W[m_cur], wfp);
-
-		fclose(wfp);
-		MessageBox(hwnd, "저장 OK", "저장 창", 0);
-	}
-	else
 		MessageBox(hwnd, "저장 실패", "저장 창", 0);
+		drawImage();
+		return;
+	}
+
+	for (int i = 0; i < m_H[m_cur]; i++)
+		fwrite(m_Image[m_cur][i], sizeof(UC), m_W[m_cur], wfp);
+
+	fclose(wfp);
+	MessageBox(hwnd, "저장 OK", "저장 창", 0);
 
 	drawImage();
 }
@@ -616,7 +655,13 @@ void equalImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
 		for (int k = 0; k < m_W[m_cur]; k++)
@@ -638,7 +683,13 @@ void negativeImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
 		for (int k = 0; k < m_W[m_cur]; k++)
@@ -660,7 +711,13 @@ void addImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	int value = 0;
 
@@ -669,7 +726,6 @@ void addImage()
 	scanf("%d", &value);
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			int pixel = m_Image[m_cur - 1][i][k] + value;
@@ -681,7 +737,6 @@ void addImage()
 
 			m_Image[m_cur][i][k] = pixel;
 		}
-	}
 
 	drawImage();
 }
@@ -699,7 +754,13 @@ void mulImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double value = 1.0;
 
@@ -711,7 +772,6 @@ void mulImage()
 		value = -value;
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			int pixel = (int)(m_Image[m_cur - 1][i][k] * value);
@@ -721,7 +781,6 @@ void mulImage()
 
 			m_Image[m_cur][i][k] = pixel;
 		}
-	}
 
 	drawImage();
 }
@@ -739,10 +798,15 @@ void bwImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < 128) // 128을 기준으로
@@ -750,7 +814,6 @@ void bwImage()
 			else
 				m_Image[m_cur][i][k] = 255;
 		}
-	}
 
 	drawImage();
 }
@@ -768,7 +831,13 @@ void avgImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	unsigned long total = 0;
 	double avg;
@@ -781,7 +850,6 @@ void avgImage()
 		avg = total / (double)(m_H[m_cur] * m_W[m_cur]); // 원소 수로 나눠서 평균 구함
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < avg) // 평균을 기준으로 흑백
@@ -789,7 +857,6 @@ void avgImage()
 			else
 				m_Image[m_cur][i][k] = 255;
 		}
-	}
 
 	drawImage();
 }
@@ -807,7 +874,13 @@ void gammaImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double gamma = 0.0;
 
@@ -816,13 +889,11 @@ void gammaImage()
 	scanf("%lf", &gamma);
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double temp = m_Image[m_cur - 1][i][k] / 255.0;
 			m_Image[m_cur][i][k] = (UC)(255.0 * pow(temp, 1.0 / gamma)); // 255(x/255)^(1/r)
 		}
-	}
 
 	drawImage();
 }
@@ -840,16 +911,20 @@ void capParaImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double value = 255.0 - 255.0 * pow(m_Image[m_cur - 1][i][k] / 128.0 - 1.0, 2.0);
 			m_Image[m_cur][i][k] = (UC)value;
 		}
-	}
 
 	drawImage();
 }
@@ -867,16 +942,20 @@ void cupParaImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double value = 255.0 * pow(m_Image[m_cur - 1][i][k] / 128.0 - 1.0, 2.0);
 			m_Image[m_cur][i][k] = (UC)value;
 		}
-	}
 
 	drawImage();
 }
@@ -894,7 +973,13 @@ void rotate90()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
 		for (int k = 0; k < m_W[m_cur]; k++)
@@ -927,10 +1012,15 @@ void zoomOutImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			int avg = 0;
@@ -943,7 +1033,6 @@ void zoomOutImage()
 
 			m_Image[m_cur][i][k] = (UC)avg;
 		}
-	}
 
 	drawImage();
 }
@@ -972,10 +1061,15 @@ void zoomInImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double rx = (double)k / value; // 원본 좌표
@@ -997,7 +1091,6 @@ void zoomInImage()
 
 			m_Image[m_cur][i][k] = (UC)value;
 		}
-	}
 
 	drawImage();
 }
@@ -1015,7 +1108,13 @@ void moveImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	int x = 0, y = 0;
 
@@ -1042,7 +1141,7 @@ void rotateImage()
 	newCur();
 
 	int degree = 0;
-	double radian = 0, radian90 = 0;
+	double radian = 0., radian90 = 0.;
 	UC **temp;
 
 	printf("각도 입력: ");
@@ -1060,7 +1159,14 @@ void rotateImage()
 	temp = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || temp == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2D(temp, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	int x0, y0, dx, dy;
 
@@ -1075,7 +1181,6 @@ void rotateImage()
 	y0 = m_H[m_cur] / 2;
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{ // 새로운 중심을 기준으로 회전
 			double nk = (k - x0) * cos(radian) + (i - y0) * sin(radian) + x0;
@@ -1100,7 +1205,6 @@ void rotateImage()
 				m_Image[m_cur][i][k] = (UC)value;
 			}
 		}
-	}
 
 	free2D(temp, m_H[m_cur]);
 
@@ -1120,7 +1224,13 @@ void udMirrorImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
 		for (int k = 0; k < m_W[m_cur]; k++)
@@ -1142,7 +1252,13 @@ void lrMirrorImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
 		for (int k = 0; k < m_W[m_cur]; k++)
@@ -1161,28 +1277,26 @@ double **malloc2Ddouble(int h, int w)
 {
 	double **memory = (double **)malloc(h * sizeof(double *)); // 포인터 배열 할당
 
-	if (memory != NULL)
-	{
-		for (int i = 0; i < h; i++)
-		{ // 각 포인터에 배열 할당
-			memory[i] = (double *)malloc(w * sizeof(double));
-
-			if (memory[i] == NULL)
-			{								// 할당에 실패한 배열이 있으면
-				for (int k = 0; k < i; k++) // 지금까지 할당한 메모리를 모두 반환하고
-					free(memory[k]);
-
-				free(memory);
-				return NULL; // NULL 반환
-			}
-
-			for (int k = 0; k < w; k++) // 초기화
-				memory[i][k] = 128;
-		}
-		return memory; // 모두 할당에 성공한 경우
-	}
-	else // 할당 실패하면
+	if (memory == NULL)
 		return NULL;
+
+	for (int i = 0; i < h; i++)
+	{ // 각 포인터에 배열 할당
+		memory[i] = (double *)malloc(w * sizeof(double));
+
+		if (memory[i] == NULL)
+		{								// 할당에 실패한 배열이 있으면
+			for (int k = 0; k < i; k++) // 지금까지 할당한 메모리를 모두 반환하고
+				free(memory[k]);
+
+			free(memory);
+			return NULL; // NULL 반환
+		}
+
+		for (int k = 0; k < w; k++) // 초기화
+			memory[i][k] = 128;
+	}
+	return memory; // 모두 할당에 성공한 경우
 }
 
 /// <summary>
@@ -1221,7 +1335,15 @@ void emboss()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 9개 X 입력영상 9개의 합
 
@@ -1230,7 +1352,6 @@ void emboss()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1241,7 +1362,6 @@ void emboss()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	for (int i = 0; i < m_H[m_cur]; i++)
@@ -1250,7 +1370,6 @@ void emboss()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1262,7 +1381,6 @@ void emboss()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1303,7 +1421,16 @@ void blur()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL || mask == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(mask, value);
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 9개 X 입력영상 9개의 합
 
@@ -1317,7 +1444,6 @@ void blur()
 			tmpInput[i + offset][k + offset] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1328,7 +1454,6 @@ void blur()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	//for (int i = 0; i < m_H[m_cur]; i++) {
@@ -1339,7 +1464,6 @@ void blur()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1351,7 +1475,6 @@ void blur()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(mask, value);
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + append);
@@ -1381,7 +1504,15 @@ void gauss()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 9개 X 입력영상 9개의 합
 
@@ -1390,7 +1521,6 @@ void gauss()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1401,7 +1531,6 @@ void gauss()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	//for (int i = 0; i < m_H[m_cur]; i++) {
@@ -1412,7 +1541,6 @@ void gauss()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1424,7 +1552,6 @@ void gauss()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1453,7 +1580,15 @@ void sharpen()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 9개 X 입력영상 9개의 합
 
@@ -1462,7 +1597,6 @@ void sharpen()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1473,7 +1607,6 @@ void sharpen()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	//for (int i = 0; i < m_H[m_cur]; i++) {
@@ -1484,7 +1617,6 @@ void sharpen()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1496,7 +1628,6 @@ void sharpen()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1525,7 +1656,15 @@ void lpfSharpen()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double a = 1.0; // 게인
 	double S = 0;	// 마스크 9개 X 입력영상 9개의 합
@@ -1534,8 +1673,7 @@ void lpfSharpen()
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
-	for (int i = 0; i < m_H[m_cur]; i++)
-	{ // 저주파 필터 적용
+	for (int i = 0; i < m_H[m_cur]; i++) // 저주파 필터 적용
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1546,7 +1684,6 @@ void lpfSharpen()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	printf("게인 값(1.0 ~ 3.0): ");
 	rewind(stdin);
@@ -1569,7 +1706,6 @@ void lpfSharpen()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1581,7 +1717,6 @@ void lpfSharpen()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1601,23 +1736,25 @@ void homogen()
 	m_W[m_cur] = m_W[m_cur - 1];
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
-	// 알고리즘에 해당하는 마스크
-	//double mask[3][3] = { {-1, 0, 0},
-	//						{ 0, 0, 0},
-	//						{ 0, 0, 1} };
-
 	double **tmpInput = malloc2Ddouble(m_H[m_cur - 1] + 2, m_W[m_cur - 1] + 2);
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
-	for (int i = 0; i < m_H[m_cur]; i++)
-	{ // 모든 화소에 대해
+	for (int i = 0; i < m_H[m_cur]; i++) // 모든 화소에 대해
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double S[9] = {0.}; // |center - m|
@@ -1634,14 +1771,6 @@ void homogen()
 
 			tmpOutput[i][k] = max;
 		}
-	}
-
-	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
-	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
@@ -1666,23 +1795,25 @@ void differ()
 	m_W[m_cur] = m_W[m_cur - 1];
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
-	// 알고리즘에 해당하는 마스크
-	//double mask[3][3] = { {-1, 0, 0},
-	//						{ 0, 0, 0},
-	//						{ 0, 0, 1} };
-
 	double **tmpInput = malloc2Ddouble(m_H[m_cur - 1] + 2, m_W[m_cur - 1] + 2);
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
-	for (int i = 0; i < m_H[m_cur]; i++)
-	{ // 모든 화소에 대해
+	for (int i = 0; i < m_H[m_cur]; i++) // 모든 화소에 대해
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double S[4] = {0.}; // |대각선 끼리의 차|
@@ -1698,14 +1829,6 @@ void differ()
 
 			tmpOutput[i][k] = max;
 		}
-	}
-
-	// 마스크의 합이 0이면 127 더하기
-	//for (int i = 0; i < m_H[m_cur]; i++) {
-	//	for (int k = 0; k < m_W[m_cur]; k++) {
-	//		tmpOutput[i][k] += 127.0;
-	//	}
-	//}
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
@@ -1741,7 +1864,15 @@ void LoG()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 25개 X 입력영상 25개의 합
 
@@ -1750,7 +1881,6 @@ void LoG()
 			tmpInput[i + 2][k + 2] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1761,7 +1891,6 @@ void LoG()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	// 경계선 검출에서는 더하기 하지 않는 것이 보기에 더 좋다.
@@ -1773,7 +1902,6 @@ void LoG()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1785,7 +1913,6 @@ void LoG()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 4);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1820,7 +1947,15 @@ void DoG()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 81개 X 입력영상 81개의 합
 
@@ -1829,7 +1964,6 @@ void DoG()
 			tmpInput[i + 4][k + 4] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -1840,7 +1974,6 @@ void DoG()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	// 경계선 검출에서는 더하기 하지 않는 것이 보기에 더 좋다.
@@ -1852,7 +1985,6 @@ void DoG()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -1864,7 +1996,6 @@ void DoG()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 8);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -1885,7 +2016,13 @@ void contrast()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double val = 1.0;
 
@@ -1897,7 +2034,6 @@ void contrast()
 		val = 1;
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			double pixel = m_Image[m_cur - 1][i][k] + (val - 1) * (m_Image[0][i][k] - 127);
@@ -1909,7 +2045,6 @@ void contrast()
 
 			m_Image[m_cur][i][k] = (UC)pixel;
 		}
-	}
 
 	drawImage();
 }
@@ -1928,7 +2063,7 @@ void histoSmooth()
 		0,
 	};
 	float normalized_cumulative_histogram[256] = {
-		0.0,
+		0.,
 	};
 	int image_size = m_H[m_cur - 1] * m_W[m_cur - 1];
 	int sum = 0;
@@ -1939,7 +2074,13 @@ void histoSmooth()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
@@ -1976,7 +2117,13 @@ void histoStretch()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
@@ -1988,7 +2135,6 @@ void histoStretch()
 		}
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < min)
@@ -1998,7 +2144,6 @@ void histoStretch()
 			else
 				m_Image[m_cur][i][k] = 255 * (m_Image[m_cur - 1][i][k] - min) / (max - min);
 		}
-	}
 
 	drawImage();
 }
@@ -2008,7 +2153,7 @@ void histoStretch()
 /// </summary>
 void openMaskImage(UC **mask)
 {
-	char fullName[100] = "c:/images/Etc_Raw(squre)/"; // 기본 경로
+	char fullName[160] = ""; // 기본 경로
 	char tmpName[50] = "";
 	printf("마스크 파일명: ");
 	rewind(stdin);
@@ -2020,6 +2165,7 @@ void openMaskImage(UC **mask)
 		return;
 	}
 
+	strcpy(fullName, m_dir);
 	strcat(fullName, tmpName);
 	strcat(fullName, ".raw");
 
@@ -2064,7 +2210,14 @@ void mergeImage()
 	tmp = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmp == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2D(tmp, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double val = 1.0;
 
@@ -2097,7 +2250,6 @@ void Circle(UC **Result, int diameter)
 	double tmp, xSqure, ySqure;
 
 	for (i = 0; i < m_H[m_cur]; i++)
-	{
 		for (j = 0; j < m_W[m_cur]; j++)
 		{
 			ySqure = (abs(m_H[m_cur] / 2 - i)) * (abs(m_H[m_cur] / 2 - i));
@@ -2109,7 +2261,6 @@ void Circle(UC **Result, int diameter)
 			else
 				Result[i][j] = 0;
 		}
-	}
 }
 
 /// <summary>
@@ -2128,7 +2279,14 @@ void circleAndImage()
 	tmp = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmp == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2D(tmp, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	int val = 1;
 
@@ -2163,10 +2321,15 @@ void posterImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] < 32)
@@ -2186,7 +2349,6 @@ void posterImage()
 			else
 				m_Image[m_cur][i][k] = 255;
 		}
-	}
 
 	drawImage();
 }
@@ -2204,7 +2366,13 @@ void partImage()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	int h = 255, l = 0;
 
@@ -2223,7 +2391,6 @@ void partImage()
 		h = 255;
 
 	for (int i = 0; i < m_H[m_cur - 1]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur - 1]; k++)
 		{
 			if (m_Image[m_cur - 1][i][k] >= l && m_Image[m_cur - 1][i][k] <= h)
@@ -2231,7 +2398,6 @@ void partImage()
 			else
 				m_Image[m_cur][i][k] = m_Image[m_cur - 1][i][k];
 		}
-	}
 
 	drawImage();
 }
@@ -2257,7 +2423,15 @@ void hpfSharpen()
 	double **tmpOutput = malloc2Ddouble(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL || tmpInput == NULL || tmpOutput == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
+		free2Ddouble(tmpOutput, m_H[m_cur]);
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	double S = 0; // 마스크 9개 X 입력영상 9개의 합
 
@@ -2266,7 +2440,6 @@ void hpfSharpen()
 			tmpInput[i + 1][k + 1] = m_Image[m_cur - 1][i][k];
 
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			S = 0;
@@ -2277,7 +2450,6 @@ void hpfSharpen()
 
 			tmpOutput[i][k] = S;
 		}
-	}
 
 	// 마스크의 합이 0이면 127 더하기
 	//for (int i = 0; i < m_H[m_cur]; i++) {
@@ -2288,7 +2460,6 @@ void hpfSharpen()
 
 	// tmpOutput -> Output
 	for (int i = 0; i < m_H[m_cur]; i++)
-	{
 		for (int k = 0; k < m_W[m_cur]; k++)
 		{
 			double v = tmpOutput[i][k];
@@ -2300,7 +2471,6 @@ void hpfSharpen()
 
 			m_Image[m_cur][i][k] = (UC)v;
 		}
-	}
 
 	free2Ddouble(tmpInput, m_H[m_cur - 1] + 2);
 	free2Ddouble(tmpOutput, m_H[m_cur]);
@@ -2321,7 +2491,13 @@ void pixelation()
 	m_Image[m_cur] = malloc2D(m_H[m_cur], m_W[m_cur]);
 
 	if (m_Image[m_cur] == NULL)
+	{
+		m_cur--;
+		m_last = m_cur;
+		MessageBox(hwnd, "메모리 부족.", "작업 창", 0);
+		drawImage();
 		return;
+	}
 
 	int block = 1;
 
@@ -2332,14 +2508,12 @@ void pixelation()
 	if (block < 1)
 		block = 1;
 
-	for (int i = 0; i < m_H[m_cur - 1]; i += block)
-	{ // 블록 단위로
+	for (int i = 0; i < m_H[m_cur - 1]; i += block) // 블록 단위로
 		for (int k = 0; k < m_W[m_cur - 1]; k += block)
 		{
 			int temp = 0;
 
-			for (int m = 0; m < block; m++)
-			{ // 블록 내 화소의 평균값을 구하고
+			for (int m = 0; m < block; m++) // 블록 내 화소의 평균값을 구하고
 				for (int n = 0; n < block; n++)
 				{
 					int ni = i + m;
@@ -2352,12 +2526,10 @@ void pixelation()
 
 					temp += m_Image[m_cur - 1][ni][nk];
 				}
-			}
 
 			temp /= block * block;
 
-			for (int m = 0; m < block; m++)
-			{ // 블록 내의 화소를 전부 평균값으로 채움
+			for (int m = 0; m < block; m++) // 블록 내의 화소를 전부 평균값으로 채움
 				for (int n = 0; n < block; n++)
 				{
 					int ni = i + m;
@@ -2370,9 +2542,7 @@ void pixelation()
 
 					m_Image[m_cur][ni][nk] = temp;
 				}
-			}
 		}
-	}
 
 	drawImage();
 }
