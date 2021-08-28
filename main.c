@@ -541,8 +541,8 @@ void openImage()
 	strcat(fullName, tmpName);
 	strcat(fullName, ".raw");
 
-	FILE *rfp;
-	rfp = fopen(fullName, "rb");
+	FILE *rfp = fopen(fullName, "rb");
+
 	if (rfp == NULL)
 	{
 		MessageBox(hwnd, "파일 읽기 실패.", "열기 창", 0);
@@ -557,13 +557,15 @@ void openImage()
 	// 메모리 누수 방지
 	for (int i = 0; i < MAX_WORK; i++)
 		free2D(m_Image[i], m_H[i]);
+
 	m_cur = m_last = 0;
 
 	// (중요!) 영상의 높이와 폭 계산
-	m_H[0] = m_W[0] = (int)sqrt(fsize);
+	m_H[0] = m_W[0] = (int)sqrt((double)fsize);
 
 	// 메모리 할당.	uc image[height][width];
 	m_Image[0] = malloc2D(m_H[0], m_W[0]);
+
 	if (m_Image[0] == NULL)
 	{
 		MessageBox(hwnd, "메모리 부족.", "열기 창", 0);
@@ -2210,8 +2212,8 @@ void openMaskImage(UC **mask)
 	strcat(fullName, tmpName);
 	strcat(fullName, ".raw");
 
-	FILE *rfp;
-	rfp = fopen(fullName, "rb");
+	FILE *rfp = fopen(fullName, "rb");
+
 	if (rfp == NULL)
 	{
 		printf("파일 읽기 실패.\n");
